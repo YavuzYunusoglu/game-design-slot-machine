@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090b12">
+  <meta name="description" content="Generate original game concepts with a single spin.">
+  <title>Game Design Slot Machine</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#machine" data-i18n="skip">Skip to the idea machine</a>
+  <div class="noise" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="#top" id="brandLink" aria-label="Game Design Slot Machine home">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M5 4h18v24H5zM8 8h12v10H8zM11 22h2m5 0h2M23 9h4v5m0 0v10h-4m4-10h-4"/><circle cx="27" cy="7" r="2"/></svg></span>
+      <span class="brand-name" id="brandName">GAME DESIGN SLOT MACHINE</span>
+    </a>
+    <div class="topbar-actions">
+      <span class="combo-count"><b id="comboCount">0</b> <span data-i18n="combinations">possible combinations</span></span>
+      <button class="icon-button language-button" id="languageButton" type="button" aria-label="Switch language to Turkish">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg><span>TR</span>
+      </button>
+      <button class="icon-button" id="soundButton" type="button" aria-label="Ses efektlerini aç veya kapat" aria-pressed="true">
+        <svg class="sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Zm4.5 3.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12"/></svg>
+        <svg class="sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Zm5 5 5 5m0-5-5 5"/></svg>
+      </button>
+      <button class="saved-button" id="savedButton" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v17l-6-4-6 4V4Z"/></svg>
+        <span data-i18n="saved">Saved</span> <span id="savedCount">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="eyebrow"><span></span> <b data-i18n="eyebrow">BEAT THE CREATIVE BLOCK</b></div>
+      <h1><span data-i18n="heroLine1">Your next game</span><br><em data-i18n="heroLine2">starts right here.</em></h1>
+      <p data-i18n="heroText">Leave the genre, mechanics and rules to chance. Spin the reels, catch strange combinations and discover your next game idea.</p>
+      <div class="hero-hint">
+        <span class="key">SPACE</span>
+        <span data-i18n="orPull">or pull the lever</span>
+      </div>
+    </section>
+
+    <section class="machine-section" aria-labelledby="machineTitle">
+      <h2 class="sr-only" id="machineTitle" data-i18n="machineTitle">Game idea machine</h2>
+      <div class="machine-glow" aria-hidden="true"></div>
+      <div class="machine" id="machine">
+        <div class="machine-top">
+          <div class="status-light"><i></i><span id="statusText">READY</span></div>
+          <span>IDEA ENGINE // MK.01</span>
+          <div class="lights" aria-hidden="true"><i></i><i></i><i></i></div>
+        </div>
+
+        <div class="reels" id="reels" aria-live="polite"></div>
+
+        <div class="machine-controls">
+          <p><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17v4m-7-9V7a2 2 0 0 1 4 0v3-5a2 2 0 0 1 4 0v5-3a2 2 0 0 1 4 0v4-1a2 2 0 0 1 4 0v3c0 5-3 8-8 8h-2c-3 0-5-2-7-5l-2-3a2 2 0 0 1 3-1Z"/></svg> <span data-i18n="lockHint">Lock the reels you love and spin the rest again.</span></p>
+          <button class="spin-button" id="spinButton" type="button">
+            <span class="spin-icon" aria-hidden="true"><i></i></span>
+            <span><small data-i18n="newIdea">GENERATE A NEW IDEA</small><span data-i18n="spin">SPIN THE MACHINE</span></span>
+            <kbd>SPACE</kbd>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="result-section" id="resultSection" aria-labelledby="resultTitle">
+      <div class="section-label"><span data-i18n="generatedIdea">GENERATED IDEA</span><i></i><b id="ideaNumber">#001</b></div>
+      <article class="idea-card">
+        <div class="idea-main">
+          <p class="idea-kicker" id="ideaKicker" data-i18n="inThisGame">IN THIS GAME...</p>
+          <h2 id="resultTitle" data-i18n="initialTitle">Spin the reels and create your first game idea.</h2>
+          <p id="resultDescription" data-i18n="initialDescription">Eight creative components will combine into an original starting point.</p>
+        </div>
+        <div class="idea-actions">
+          <button class="action-button primary" id="saveButton" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v17l-6-4-6 4V4Z"/></svg><span data-i18n="saveIdea">SAVE IDEA</span>
+          </button>
+          <button class="action-button" id="copyButton" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="11" height="11" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg><span data-i18n="copy">COPY</span>
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <section class="how-it-works" aria-labelledby="howTitle">
+      <div>
+        <span class="mini-label" data-i18n="howLabel">HOW DOES IT WORK?</span>
+        <h2 id="howTitle"><span data-i18n="howLine1">Turn chance into</span><br><span data-i18n="howLine2">a design tool.</span></h2>
+      </div>
+      <div class="steps">
+        <article><b>01</b><h3 data-i18n="step1Title">Spin</h3><p data-i18n="step1Text">The machine builds a random combination from thousands of creative pieces.</p></article>
+        <article><b>02</b><h3 data-i18n="step2Title">Lock</h3><p data-i18n="step2Text">Keep the components you like and spin the remaining reels again.</p></article>
+        <article><b>03</b><h3 data-i18n="step3Title">Develop</h3><p data-i18n="step3Text">Copy or save the idea, then bring it to life with your own interpretation.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <aside class="saved-panel" id="savedPanel" aria-hidden="true" aria-labelledby="savedTitle">
+    <div class="panel-backdrop" data-close-panel></div>
+    <div class="panel-content">
+      <div class="panel-header">
+        <div><span class="mini-label" data-i18n="collection">COLLECTION</span><h2 id="savedTitle" data-i18n="savedIdeas">Saved ideas</h2></div>
+        <button class="icon-button close-button" type="button" data-close-panel aria-label="Close saved ideas">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+      <div class="saved-list" id="savedList"></div>
+    </div>
+  </aside>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMessage"></span><button id="undoButton" type="button" data-i18n="undo">UNDO</button></div>
+
+  <footer><span id="footerBrand">GAME DESIGN SLOT MACHINE © 2026</span><p data-i18n="footerText">Great games start with an idea. The weird ones are usually better.</p></footer>
+  <script src="script.js"></script>
+</body>
+</html>
