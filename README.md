@@ -2,6 +2,8 @@
 
 > **Fikirhane** in Turkish — an AI-assisted creative tool for game designers, developers, students, and anyone looking for an unusual starting point for their next game.
 
+### [▶ Launch the live app](https://yavuzyunusoglu.github.io/game-design-slot-machine/)
+
 Game Design Slot Machine combines eight design dimensions to generate more than **110 billion possible game concepts**. Spin all the reels for a completely new idea, or lock the parts you like and keep exploring.
 
 ![Game Design Slot Machine interface](assets/screenshots/game-design-slot-machine.png)
