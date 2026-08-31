@@ -121,9 +121,41 @@ function openPanel(open) { if (open) panelTrigger = document.activeElement; els.
 function showToast(message, undoAction) { els.toastMessage.textContent = message; els.toast.classList.toggle("has-action", Boolean(undoAction)); els.toast.classList.add("show"); els.undo.onclick = undoAction ? () => { undoAction(); els.toast.classList.remove("show", "has-action"); } : null; clearTimeout(showToast.timer); showToast.timer = setTimeout(() => els.toast.classList.remove("show", "has-action"), undoAction ? 5000 : 2200); }
 
 let audioContext;
-function tone(frequency, duration = .04, volume = .02) { if (!state.sound) return; try { audioContext ||= new (window.AudioContext || window.webkitAudioContext)(); const oscillator = audioContext.createOscillator(); const gain = audioContext.createGain(); oscillator.type = "square"; oscillator.frequency.value = frequency; gain.gain.setValueAtTime(volume, audioContext.currentTime); gain.gain.exponentialRampToValueAtTime(.0001, audioContext.currentTime + duration); oscillator.connect(gain).connect(audioContext.destination); oscillator.start(); oscillator.stop(audioContext.currentTime + duration); } catch {} }
+const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+
+function unlockAudio() {
+  if (!state.sound || !AudioContextClass) return;
+  try {
+    audioContext ||= new AudioContextClass();
+    if (audioContext.state === "suspended") audioContext.resume().catch(() => {});
+  } catch {}
+}
+
+function playTone(frequency, duration, volume) {
+  if (!audioContext || audioContext.state !== "running") return;
+  const oscillator = audioContext.createOscillator();
+  const gain = audioContext.createGain();
+  oscillator.type = "square";
+  oscillator.frequency.value = frequency;
+  gain.gain.setValueAtTime(volume, audioContext.currentTime);
+  gain.gain.exponentialRampToValueAtTime(.0001, audioContext.currentTime + duration);
+  oscillator.connect(gain).connect(audioContext.destination);
+  oscillator.start();
+  oscillator.stop(audioContext.currentTime + duration);
+}
+
+function tone(frequency, duration = .04, volume = .02) {
+  if (!state.sound || !AudioContextClass) return;
+  try {
+    audioContext ||= new AudioContextClass();
+    if (audioContext.state === "running") playTone(frequency, duration, volume);
+    else audioContext.resume().then(() => playTone(frequency, duration, volume)).catch(() => {});
+  } catch {}
+}
 
 els.spin.addEventListener("click", spin); els.save.addEventListener("click", saveIdea); els.copy.addEventListener("click", () => copyIdea()); els.savedButton.addEventListener("click", () => openPanel(true)); document.querySelectorAll("[data-close-panel]").forEach(element => element.addEventListener("click", () => openPanel(false)));
+document.addEventListener("pointerdown", unlockAudio, { passive: true });
+document.addEventListener("touchstart", unlockAudio, { passive: true });
 els.language.addEventListener("click", () => { state.lang = state.lang === "en" ? "tr" : "en"; localStorage.setItem("game-design-slot-language", state.lang); applyLanguage(); tone(560,.06); });
 els.sound.addEventListener("click", () => { state.sound = !state.sound; els.sound.setAttribute("aria-pressed", String(state.sound)); showToast(t(state.sound ? "soundOn" : "soundOff")); if (state.sound) tone(500,.06); });
 els.list.addEventListener("click", event => { const item = event.target.closest(".saved-item"); if (!item) return; const idea = state.saved.find(entry => String(entry.id) === item.dataset.id); if (event.target.matches("[data-copy]")) copyIdea(idea); if (event.target.matches("[data-delete]")) { const index = state.saved.findIndex(entry => entry.id === idea.id); state.saved.splice(index, 1); persistSaved(); showToast(t("deleted"), () => { state.saved.splice(index, 0, idea); persistSaved(); showToast(t("restored")); }); } });
